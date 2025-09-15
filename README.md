@@ -1,37 +1,23 @@
-# HRMS FastAPI Backend (Postgres)
+HRMS FastAPI (modular scaffold)
 
-This repository contains a complete FastAPI backend for an HRMS product (attendance, leaves, policies, recruitment) using PostgreSQL.
-
-## What you get
-- Clear folder/file layout ready to copy into a repository
-- Sync SQLAlchemy models and Pydantic schemas
-- CRUD + approval logic that enforces manager → HR → CFO approval chains
-- Simple, explicit endpoints your frontend can call (designed to be wired to Vercel / Lovable frontend)
-- `docker-compose.yml` for quick local Postgres
-
-## Prerequisites
-- Python 3.10+
-- Docker (for local Postgres) or a running Postgres instance
-- `pip` to install Python packages
-
-## Quickstart (copy files and run)
-1. Create project folder and paste files from this scaffold.
-2. Create `.env` from `.env.example` and set your DB URL (or use docker-compose).
-3. Start Postgres locally:
-   ```bash
-   docker-compose up -d
-   ```
-4. Create a Python venv and install requirements:
-   ```bash
+Quickstart:
+1. Copy .env.example -> .env (no changes required for local Docker compose)
+2. Start Postgres:
+   docker compose up -d
+3. Create virtual env & install:
    python -m venv .venv
-   source .venv/bin/activate
+   source .venv/bin/activate        # Windows: .venv\Scripts\activate
    pip install -r requirements.txt
-   ```
-5. Start the server (it will create tables automatically on startup):
-   ```bash
-   uvicorn app.main:app --reload
-   ```
-6. Open docs: http://localhost:8000/docs
+4. Run app:
+   uvicorn src.main:app --reload
+5. Open docs:
+   http://localhost:8000/docs
 
-## Files & Layout
-The canvas contains the complete project under the `app/` folder. Read the `app/README` in the canvas for per-file details.
+Auth:
+- Current simple auth: use header X-User-Id (numeric) to identify current user for endpoints.
+- /api/auth/login returns {"role": "<role>"} for an identifier (email or id).
+
+Next steps:
+- Replace header auth + login with JWT/OAuth2
+- Add Alembic migrations
+- Add notifications (Celery/Redis)
